@@ -24,7 +24,7 @@ def download():
         url = request.form["url"]
         download_video(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
         download_audio(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
-        return "Tu descarga ha sido completada! Gracias por estar aquí."
+        return render_template("download_complete.html")
     else:
         # Manejar aquí el caso en el que se realiza una solicitud GET a /download
         print("error en la descarga")
