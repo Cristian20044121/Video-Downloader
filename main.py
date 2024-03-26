@@ -32,9 +32,9 @@ def index():
 def download():
     if request.method == "POST":
         url = request.form["url"]
-        # Define la ruta de descarga en función del tipo de dispositivo
-        if request.user_agent.platform in ['android', 'iphone']:
-            download_dir = os.path.join('/storage/emulated/0/Download')
+        # Verifica si el usuario está accediendo desde un dispositivo Android
+        if 'android' in request.user_agent.platform:
+            download_dir = '/storage/emulated/0/Download'
         else:
             download_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
         video_success = download_video(url, download_dir)
@@ -45,6 +45,7 @@ def download():
             return render_template("download_error.html")
     else:
         return "Método no permitido"
+
 
 if __name__ == "__main__":
     app.run(debug=True)
