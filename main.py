@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request
 from pytube import YouTube
 from pytube.exceptions import PytubeError
@@ -31,23 +32,23 @@ def download_audio(url, output_path):
         print("Error en la descarga de audio:", e)
         return False
 
-@app.route("/")
+
+@app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template('index.html')
 
-@app.route("/download", methods=["POST"])
+@app.route('/download', methods=['POST'])
 def download():
-    if request.method == "POST":
-        url = request.form["url"]
-        video_success = download_video(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
-        audio_success = download_audio(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
-        if video_success and audio_success:
-            return render_template("download_complete.html")
-        else:
-            return render_template("download_error.html")
-    else:
-        print("Error: Se esperaba una solicitud POST.")
-        return render_template("download_error.html")
+    try:
+        url = request.form['url']
+        yt = YouTube(url)
+        stream = yt.streams.get_highest_resolution()
+        output_path = os.path.join(os.path.expanduser('~'), 'Downloads')
+        stream.download(output_path)
+        return "Download completed successfully!"
+    except PytubeError as e:
+        return f"An error occurred: {e}"
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
+
