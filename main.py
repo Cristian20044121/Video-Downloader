@@ -35,7 +35,7 @@ def download_audio(url, output_path):
 def index():
     return render_template("index.html")
 
-@app.route("/download", methods=["POST"])
+@app.route("/download", methods=["GET, POST"])
 def download():
     if request.method == "POST":
         url = request.form["url"]
