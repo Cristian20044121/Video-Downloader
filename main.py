@@ -22,15 +22,17 @@ def index():
 def download():
     if request.method == "POST":
         url = request.form["url"]
-        download_video(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
-        download_audio(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
-        if video_success and audio_success:
+        try:
+            download_video(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
+            download_audio(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
             return render_template("download_complete.html")
-        else:
-            return render_template("download_error.html")
+        except Exception as e:
+            print(f"Error al descargar el video o audio: {e}")
+            return render_template("download_error.html", error=str(e))
     else:
         print("Error: Se esperaba una solicitud POST.")
-        return render_template("download_error.html")
+        return render_template("download_error.html", error="Se esperaba una solicitud POST.")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
