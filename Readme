@@ -3,6 +3,4 @@
 
 pip install Flask
 pip install pytube
-pip install celery redis
-pip install celery
 
