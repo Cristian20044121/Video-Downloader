@@ -23,12 +23,8 @@ def download():
     if request.method == "POST":
         url = request.form["url"]
         try:
-            # Descargar video y audio en rutas diferentes
-            video_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'video')
-            audio_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'audio')
-            
-            download_video(url, video_path)
-            download_audio(url, audio_path)
+            download_video(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
+            download_audio(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
             return render_template("download_complete.html")
         except Exception as e:
             print(f"Error al descargar el video o audio: {e}")
@@ -38,4 +34,5 @@ def download():
         return render_template("download_error.html", error="Se esperaba una solicitud POST.")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Ajustar el tiempo de espera del trabajador a 60 segundos (por defecto es 30)
+    app.run(debug=True, port=5000, host='0.0.0.0', threaded=True, request_timeout=60)
