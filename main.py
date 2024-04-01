@@ -1,3 +1,5 @@
+# Archivo: app.py
+
 from flask import Flask, render_template, request
 from pytube import YouTube
 import os
@@ -18,10 +20,13 @@ def download_audio(url, output_path):
 def index():
     return render_template("index.html")
 
-@app.route("/download", methods=["GET", "POST"])
+@app.route("/download", methods=["POST"])
 def download():
     if request.method == "POST":
-        url = request.form["url"]
+        url = request.form.get("url")
+        if not url:
+            return render_template("download_error.html", error="No se proporcionó una URL.")
+
         try:
             # Descargar video y audio en rutas diferentes
             video_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'video')
@@ -31,11 +36,12 @@ def download():
             download_audio(url, audio_path)
             return render_template("download_complete.html")
         except Exception as e:
-            print(f"Error al descargar el video o audio: {e}")
-            return render_template("download_error.html", error=str(e))
-    else:
-        print("Error: Se esperaba una solicitud POST.")
-        return render_template("download_error.html", error="Se esperaba una solicitud POST.")
+            error_message = f"Error al descargar el video o audio: {e}"
+            print(error_message)
+            return render_template("download_error.html", error=error_message)
+
+    # Si la solicitud no es POST, mostrar un mensaje de error
+    return render_template("download_error.html", error="Se esperaba una solicitud POST.")
 
 if __name__ == "__main__":
     app.run(debug=True)
