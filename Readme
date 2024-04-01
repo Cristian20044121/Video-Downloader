@@ -17,6 +17,7 @@ El archivo `app.py` contiene el código principal de la aplicación. Aquí hay u
 ## Conexión con HTML y CSS
 
 La aplicación se conecta con **HTML** y **CSS** a través de las plantillas `index.html`, `download_error.html` y `download_complete.html`. Estas plantillas proporcionan la interfaz de usuario para la aplicación, permitiendo al usuario ingresar la URL del video y mostrando mensajes de error o éxito después de la descarga.
+<<<<<<< HEAD
 
 ## Ejecutar la Aplicación
 
@@ -25,3 +26,13 @@ Para ejecutar la aplicación, simplemente ejecute el archivo `app.py`. La aplica
 ```bash
 python app.py
 ```
+=======
+
+## Ejecutar la Aplicación
+
+Para ejecutar la aplicación, simplemente ejecute el archivo `app.py`. La aplicación se ejecutará en modo de depuración, lo que facilitará el desarrollo y la depuración.
+
+```bash
+python app.py
+
+>>>>>>> 7db67980597b2eca1f8ff9541c22efe8b3850931
