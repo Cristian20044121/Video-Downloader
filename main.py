@@ -27,13 +27,14 @@ def download():
             download_audio(url, os.path.join(os.path.expanduser('~'), 'Downloads'))
             return render_template("download_complete.html")
         except Exception as e:
-            print(f"Error al descargar el video o audio: {e}")
-            return render_template("download_error.html", error=str(e))
+            error_message = f"Error al descargar el video o audio: {e}"
+            print(error_message)
+            return render_template("download_error.html", error=error_message)
     else:
-        print("Error: Se esperaba una solicitud POST.")
-        return render_template("download_error.html", error="Se esperaba una solicitud POST.")
-
+        error_message = "Error: Se esperaba una solicitud POST."
+        print(error_message)
+        return render_template("download_error.html", error=error_message)
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
+    # Aumenta el tiempo de espera del servidor a 120 segundos
+    app.run(debug=True, timeout=120)
